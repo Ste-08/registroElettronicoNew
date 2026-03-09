@@ -11,6 +11,7 @@ import 'package:registro_elettronico/core/infrastructure/error/successes.dart';
 import 'package:registro_elettronico/core/infrastructure/generic/resource.dart';
 import 'package:registro_elettronico/core/infrastructure/generic/update.dart';
 import 'package:registro_elettronico/feature/agenda/data/datasource/local/agenda_local_datasource.dart';
+import 'package:registro_elettronico/feature/agenda/data/datasource/local/agenda_widget_service.dart';
 import 'package:registro_elettronico/feature/agenda/data/datasource/remote/agenda_remote_datasource.dart';
 import 'package:registro_elettronico/feature/agenda/data/model/agenda_event_local_model.dart';
 import 'package:registro_elettronico/feature/agenda/data/model/agenda_event_remote_model.dart';
@@ -34,11 +35,14 @@ class AgendaRepositoryImpl implements AgendaRepository {
 
   final SharedPreferences sharedPreferences;
 
+  final AgendaWidgetService agendaWidgetService;
+
   AgendaRepositoryImpl({
     @required this.agendaLocalDatasource,
     @required this.agendaRemoteDatasource,
     @required this.sharedPreferences,
     @required this.lessonsLocalDatasource,
+    @required this.agendaWidgetService,
   });
 
   @override
@@ -165,6 +169,9 @@ class AgendaRepositoryImpl implements AgendaRepository {
                       DateTime.now().hour <= 14),
             )
             .toList();
+
+        // Update the home screen widget with tomorrow's events
+        agendaWidgetService.updateWidgetData(domainEvents);
 
         return Resource.success(
           data: AgendaDataDomainModel(

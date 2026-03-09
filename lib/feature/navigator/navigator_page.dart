@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:registro_elettronico/core/infrastructure/app_injection.dart';
 import 'package:registro_elettronico/core/infrastructure/localizations/app_localizations.dart';
@@ -21,7 +22,10 @@ class NavigatorPage extends StatefulWidget {
   _NavigatorPageState createState() => _NavigatorPageState();
 }
 
-class _NavigatorPageState extends State<NavigatorPage> {
+class _NavigatorPageState extends State<NavigatorPage> with WidgetsBindingObserver {
+  static const MethodChannel _widgetChannel =
+      MethodChannel('com.riccardocalligaro.registro_elettronico/agenda_widget');
+  
   int _currentPage = 0;
   List<Widget> _pages;
   SRUpdateManager srUpdateManager;
@@ -33,6 +37,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
   @override
   void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
     srUpdateManager = sl();
     unawaited(srUpdateManager.checkForUpdates());
 
@@ -45,7 +51,35 @@ class _NavigatorPageState extends State<NavigatorPage> {
       NoticeboardPage(),
       MorePage(),
     ];
-    super.initState();
+    
+    // Check if opened from widget
+    _checkWidgetNavigation();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkWidgetNavigation();
+    }
+  }
+
+  Future<void> _checkWidgetNavigation() async {
+    try {
+      final String navigation = await _widgetChannel.invokeMethod('getPendingNavigation');
+      if (navigation == 'agenda') {
+        setState(() {
+          _currentPage = agenda;
+        });
+      }
+    } catch (e) {
+      // Ignore - widget channel might not be available
+    }
   }
 
   @override

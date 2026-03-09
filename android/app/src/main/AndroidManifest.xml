@@ -67,5 +67,23 @@
         <service android:name="io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService" android:exported="true"/>
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:exported="true"/>
 
+        <!-- Agenda Home Screen Widget -->
+        <receiver
+            android:name=".AgendaWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.riccardocalligaro.registro_elettronico.WIDGET_REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/agenda_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".AgendaWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 </manifest>

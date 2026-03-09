@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_item_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <!-- Color indicator - using FrameLayout because View is not allowed in widgets -->
+    <FrameLayout
+        android:id="@+id/item_indicator"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:background="#FF2196F3" />
+
+    <!-- Event content -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_event_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#FF212121"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_event_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#FF616161"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/item_event_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#FF9E9E9E"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Event type icon -->
+    <ImageView
+        android:id="@+id/item_event_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:tint="#FF757575" />
+</LinearLayout>

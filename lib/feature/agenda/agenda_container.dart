@@ -6,6 +6,7 @@ import 'package:registro_elettronico/feature/agenda/presentation/updater/agenda_
 import 'package:registro_elettronico/feature/agenda/presentation/watcher/agenda_watcher_bloc.dart';
 
 import 'data/datasource/local/agenda_local_datasource.dart';
+import 'data/datasource/local/agenda_widget_service.dart';
 import 'data/datasource/remote/agenda_remote_datasource.dart';
 import 'data/repository/agenda_repository_impl.dart';
 import 'domain/repository/agenda_repository.dart';
@@ -25,12 +26,17 @@ class AgendaContainer {
       ),
     );
 
+    _sl.registerLazySingleton(
+      () => AgendaWidgetService(sharedPreferences: _sl()),
+    );
+
     _sl.registerLazySingleton<AgendaRepository>(
       () => AgendaRepositoryImpl(
         agendaRemoteDatasource: _sl(),
         agendaLocalDatasource: _sl(),
         sharedPreferences: _sl(),
         lessonsLocalDatasource: _sl(),
+        agendaWidgetService: _sl(),
       ),
     );
   }
