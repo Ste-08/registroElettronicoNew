@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:registro_elettronico/feature/agenda/domain/model/agenda_event_domain_model.dart';
 import 'package:registro_elettronico/utils/date_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Service that bridges Flutter agenda data to the native Android home screen widget.
+/// Service that bridges Flutter agenda data to the native home screen widget.
+/// Supports both Android and iOS widgets.
 class AgendaWidgetService {
   static const String _eventsKey = 'widget_agenda_events';
   static const MethodChannel _channel =
@@ -43,7 +45,7 @@ class AgendaWidgetService {
       final jsonString = json.encode(eventsJson);
       await sharedPreferences.setString(_eventsKey, jsonString);
 
-      // Notify Android widget to refresh
+      // Notify native widget to refresh (Android or iOS)
       await _notifyWidgetUpdate();
     } catch (e) {
       // Silently fail — widget update is non-critical
@@ -54,9 +56,15 @@ class AgendaWidgetService {
   /// Tells the native side to refresh the home screen widget.
   Future<void> _notifyWidgetUpdate() async {
     try {
-      await _channel.invokeMethod('updateWidget');
+      if (Platform.isAndroid) {
+        await _channel.invokeMethod('updateWidget');
+      } else if (Platform.isIOS) {
+        // iOS uses WidgetKit which automatically refreshes based on timeline
+        // But we can trigger a refresh via the method channel
+        await _channel.invokeMethod('reloadWidgets');
+      }
     } on MissingPluginException {
-      // Expected when running on iOS or in tests
+      // Expected when widget extension is not available
     } catch (e) {
       print('AgendaWidgetService: Failed to notify widget: $e');
     }
