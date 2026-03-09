@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:registro_elettronico/feature/grades/data/datasource/local/local_grades_local_datasource.dart';
 import 'package:registro_elettronico/feature/grades/data/datasource/normal/grades_local_datasource.dart';
+import 'package:registro_elettronico/feature/grades/data/datasource/grades_widget_service.dart';
 
 import 'package:registro_elettronico/feature/grades/data/repository/grades_repository_impl.dart';
 import 'package:registro_elettronico/feature/grades/presentation/operations/grades_operations_bloc.dart';
@@ -33,6 +34,10 @@ class GradesContainer {
       ),
     );
 
+    sl.registerLazySingleton(
+      () => GradesWidgetService(sharedPreferences: sl()),
+    );
+
     sl.registerLazySingleton<GradesRepository>(
       () => GradesRepositoryImpl(
         lessonsLocalDatasource: sl(),
@@ -44,6 +49,7 @@ class GradesContainer {
         professorLocalDatasource: sl(),
         localGradesLocalDatasource: sl(),
         agendaLocalDatasource: sl(),
+        gradesWidgetService: sl(),
       ),
     );
   }

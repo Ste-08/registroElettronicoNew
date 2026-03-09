@@ -13,6 +13,7 @@ import 'package:registro_elettronico/feature/agenda/data/datasource/local/agenda
 import 'package:registro_elettronico/feature/grades/data/datasource/local/local_grades_local_datasource.dart';
 import 'package:registro_elettronico/feature/grades/data/datasource/normal/grades_local_datasource.dart';
 import 'package:registro_elettronico/feature/grades/data/datasource/normal/grades_remote_datasource.dart';
+import 'package:registro_elettronico/feature/grades/data/datasource/grades_widget_service.dart';
 import 'package:registro_elettronico/feature/grades/data/model/grade_local_model.dart';
 import 'package:registro_elettronico/feature/grades/domain/model/grade_domain_model.dart';
 import 'package:registro_elettronico/feature/grades/domain/model/grades_section.dart';
@@ -45,6 +46,7 @@ class GradesRepositoryImpl extends GradesRepository {
   final LessonsLocalDatasource lessonsLocalDatasource;
 
   final AgendaLocalDatasource agendaLocalDatasource;
+  final GradesWidgetService gradesWidgetService;
 
   final SharedPreferences sharedPreferences;
 
@@ -58,6 +60,7 @@ class GradesRepositoryImpl extends GradesRepository {
     @required this.localGradesLocalDatasource,
     @required this.lessonsLocalDatasource,
     @required this.agendaLocalDatasource,
+    @required this.gradesWidgetService,
   });
 
   @override
@@ -350,6 +353,12 @@ class GradesRepositoryImpl extends GradesRepository {
           periodsWithGrades: gradesPeriods,
           periods: domainPeriods.length,
           newNotSeenGrades: notSeenGrades.length,
+        );
+
+        // Update home screen widget with grades data
+        gradesWidgetService.updateWidgetData(
+          grades: grades,
+          subjects: domainSubjects,
         );
 
         return Resource.success(data: gradesPagesDomainModel);

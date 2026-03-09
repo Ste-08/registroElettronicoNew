@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">School register</string>
+    <string name="agenda_widget_description">Mostra gli eventi di domani nell\'agenda</string>
+    <string name="grades_widget_description">Mostra la media dei voti per materia</string>
 </resources>

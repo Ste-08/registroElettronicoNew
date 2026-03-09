@@ -11,6 +11,7 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "com.riccardocalligaro.registro_elettronico/multi-account"
     private val WIDGET_CHANNEL = "com.riccardocalligaro.registro_elettronico/agenda_widget"
+    private val GRADES_WIDGET_CHANNEL = "com.riccardocalligaro.registro_elettronico/grades_widget"
     
     companion object {
         var pendingWidgetNavigation: String? = null
@@ -27,8 +28,9 @@ class MainActivity: FlutterActivity() {
     }
 
     private fun handleIntent(intent: Intent?) {
-        if (intent?.action == "OPEN_AGENDA") {
-            pendingWidgetNavigation = "agenda"
+        when (intent?.action) {
+            "OPEN_AGENDA" -> pendingWidgetNavigation = "agenda"
+            "OPEN_GRADES" -> pendingWidgetNavigation = "grades"
         }
     }
 
@@ -54,6 +56,15 @@ class MainActivity: FlutterActivity() {
                 val nav = pendingWidgetNavigation
                 pendingWidgetNavigation = null
                 result.success(nav)
+            } else {
+                result.notImplemented()
+            }
+        }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, GRADES_WIDGET_CHANNEL).setMethodCallHandler { call, result ->
+            if (call.method == "updateGradesWidget") {
+                GradesWidgetProvider.refreshWidget(context)
+                result.success(true)
             } else {
                 result.notImplemented()
             }

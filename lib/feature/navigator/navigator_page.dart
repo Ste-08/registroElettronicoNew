@@ -76,6 +76,10 @@ class _NavigatorPageState extends State<NavigatorPage> with WidgetsBindingObserv
         setState(() {
           _currentPage = agenda;
         });
+      } else if (navigation == 'grades') {
+        setState(() {
+          _currentPage = grades;
+        });
       }
     } catch (e) {
       // Ignore - widget channel might not be available

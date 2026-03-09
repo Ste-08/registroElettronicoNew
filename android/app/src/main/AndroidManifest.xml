@@ -85,5 +85,23 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <!-- Grades Home Screen Widget -->
+        <receiver
+            android:name=".GradesWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.riccardocalligaro.registro_elettronico.GRADES_WIDGET_REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/grades_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".GradesWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 </manifest>
