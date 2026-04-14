@@ -34,10 +34,9 @@ class SRFailureView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          if (refresh != null)
-            const SizedBox(
-              height: 12,
-            ),
+          const SizedBox(
+            height: 12,
+          ),
           FlatButton(
             child: Text(
               AppLocalizations.of(context).translate('show_error'),
@@ -78,18 +77,17 @@ class SRFailureView extends StatelessWidget {
               );
             },
           ),
-          if (refresh != null)
-            FlatButton(
-              child: Text(
-                AppLocalizations.of(context).translate('refresh'),
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
+          FlatButton(
+            child: Text(
+              AppLocalizations.of(context).translate('refresh'),
+              style: TextStyle(
+                color: Colors.grey[600],
               ),
-              onPressed: () {
-                refresh();
-              },
-            )
+            ),
+            onPressed: () {
+              refresh();
+            },
+          )
         ],
       ),
     );

@@ -147,7 +147,6 @@ class DateUtils {
   /// The spaggiari API returns the date in the following
   /// format: [20191112], this function converts this [string] into a [date]
   static DateTime getDateFromApiString(String date) {
-    if (date == null) return null;
     final parts = date.split('-');
     return DateTime.utc(
       int.tryParse(parts[0]),

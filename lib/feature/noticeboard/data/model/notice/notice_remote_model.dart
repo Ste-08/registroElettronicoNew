@@ -110,9 +110,7 @@ class NoticeRemoteModel {
     data['needReply'] = this.needReply;
     data['needFile'] = this.needFile;
     //data['evento_id'] = this.eventoId;
-    if (this.attachments != null) {
-      data['attachments'] = this.attachments.map((v) => v.toJson()).toList();
-    }
-    return data;
+    data['attachments'] = this.attachments.map((v) => v.toJson()).toList();
+      return data;
   }
 }

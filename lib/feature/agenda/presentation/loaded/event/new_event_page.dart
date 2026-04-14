@@ -208,12 +208,10 @@ class _NewEventPageState extends State<NewEventPage> {
             title: Text(AppLocalizations.of(context).translate('notify_event')),
             value: _notifyEvent,
             onChanged: (bool value) {
-              if (value != null) {
-                setState(() {
-                  _notifyEvent = value;
-                });
-              }
-            },
+              setState(() {
+                _notifyEvent = value;
+              });
+                        },
           ),
           if (_notifyEvent)
             _buildNotifyOptions()
@@ -427,10 +425,8 @@ class _NewEventPageState extends State<NewEventPage> {
   }
 
   Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-    await Navigator.push(
+    debugPrint('notification payload: ' + payload);
+      await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AgendaPage()),
     );

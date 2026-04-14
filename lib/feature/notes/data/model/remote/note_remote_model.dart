@@ -40,19 +40,11 @@ class NotesResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.notesNTTE != null) {
-      data['NTTE'] = this.notesNTTE.map((v) => v.toJson()).toList();
-    }
-    if (this.notesNTCL != null) {
+    data['NTTE'] = this.notesNTTE.map((v) => v.toJson()).toList();
       data['NTCL'] = this.notesNTCL.map((v) => v.toJson()).toList();
-    }
-    if (this.notesNTWN != null) {
       data['NTWN'] = this.notesNTWN.map((v) => v.toJson()).toList();
-    }
-    if (this.notesNTST != null) {
       data['NTST'] = this.notesNTST.map((v) => v.toJson()).toList();
-    }
-    return data;
+      return data;
   }
 }
 

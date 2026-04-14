@@ -5,5 +5,5 @@ class DateTimeInterval {
   String end;
 
   DateTimeInterval({@required this.begin, @required this.end})
-      : assert(begin != null && end != null);
+      : assert(end != null);
 }

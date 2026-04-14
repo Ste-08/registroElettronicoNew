@@ -25,10 +25,8 @@ class ParentLoginResponseRemoteModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['requestedAction'] = this.requestedAction;
-    if (this.choices != null) {
-      data['choices'] = this.choices.map((v) => v.toJson()).toList();
-    }
-    data['message'] = this.message;
+    data['choices'] = this.choices.map((v) => v.toJson()).toList();
+      data['message'] = this.message;
     return data;
   }
 }

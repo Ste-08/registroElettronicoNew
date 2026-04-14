@@ -84,8 +84,8 @@ class ProfileDomainModel {
       'firstName': firstName,
       'lastName': lastName,
       'token': token,
-      'release': release?.millisecondsSinceEpoch,
-      'expire': expire?.millisecondsSinceEpoch,
+      'release': release.millisecondsSinceEpoch,
+      'expire': expire.millisecondsSinceEpoch,
       'studentId': studentId,
       'currentlyLoggedIn': currentlyLoggedIn,
       'dbName': dbName,
@@ -93,8 +93,6 @@ class ProfileDomainModel {
   }
 
   factory ProfileDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return ProfileDomainModel(
       ident: map['ident'],
       firstName: map['firstName'],

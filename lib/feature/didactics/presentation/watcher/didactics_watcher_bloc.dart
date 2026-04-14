@@ -35,10 +35,8 @@ class DidacticsWatcherBloc
         yield DidacticsWatcherLoading();
       }
     } else if (event is DidacticsWatchAllStarted) {
-      if (_didacticsStreamSubscription != null) {
-        await _didacticsStreamSubscription.cancel();
-      }
-      _didacticsStreamSubscription =
+      await _didacticsStreamSubscription?.cancel();
+          _didacticsStreamSubscription =
           didacticsRepository.watchTeachersMaterials().listen((event) {
         add(DidacticsDataReceived(resource: event));
       });
@@ -47,7 +45,7 @@ class DidacticsWatcherBloc
 
   @override
   Future<void> close() {
-    _didacticsStreamSubscription.cancel();
+    _didacticsStreamSubscription?.cancel();
     return super.close();
   }
 }

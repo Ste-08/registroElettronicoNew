@@ -9,6 +9,7 @@ struct AgendaEvent: Codable, Identifiable {
     let isFullDay: Bool
     let labelColor: String
     let subjectName: String
+    let beginDateMs: Int?
 }
 
 struct Provider: TimelineProvider {
@@ -39,7 +40,21 @@ struct Provider: TimelineProvider {
         }
         
         do {
-            return try JSONDecoder().decode([AgendaEvent].self, from: jsonData)
+            let allEvents = try JSONDecoder().decode([AgendaEvent].self, from: jsonData)
+            
+            let calendar = Calendar.current
+            if let tomorrowStart = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: Date())),
+               let tomorrowEnd = calendar.date(byAdding: .day, value: 1, to: tomorrowStart) {
+                
+                let startMs = Int(tomorrowStart.timeIntervalSince1970 * 1000)
+                let endMs = Int(tomorrowEnd.timeIntervalSince1970 * 1000)
+                
+                return allEvents.filter {
+                    guard let beginDateMs = $0.beginDateMs else { return false }
+                    return beginDateMs >= startMs && beginDateMs < endMs
+                }
+            }
+            return []
         } catch {
             return []
         }

@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Emulator (FVM)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "emulator-5554",
+      "flutterMode": "debug",
+      "env": {
+        "JAVA_HOME": "/home/stefano/.jdks/jdk-11.0.30+7",
+        "PATH": "/home/stefano/.jdks/jdk-11.0.30+7/bin:${env:PATH}"
+      }
+    }
+  ]
+}

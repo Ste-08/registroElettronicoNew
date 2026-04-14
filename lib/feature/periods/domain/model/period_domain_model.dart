@@ -59,15 +59,13 @@ class PeriodDomainModel {
       'position': position,
       'description': description,
       'isFinal': isFinal,
-      'start': start?.millisecondsSinceEpoch,
-      'end': end?.millisecondsSinceEpoch,
+      'start': start.millisecondsSinceEpoch,
+      'end': end.millisecondsSinceEpoch,
       'miurDivisionCode': miurDivisionCode,
     };
   }
 
   factory PeriodDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return PeriodDomainModel(
       code: map['code'],
       position: map['position'],

@@ -30,8 +30,6 @@ class CredentialsDomainModel {
   }
 
   factory CredentialsDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return CredentialsDomainModel(
       profile: ProfileDomainModel.fromMap(map['profile']),
       password: map['password'],

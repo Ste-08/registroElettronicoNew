@@ -357,8 +357,7 @@ class GradesRepositoryImpl extends GradesRepository {
 
         // Update home screen widget with grades data
         gradesWidgetService.updateWidgetData(
-          grades: grades,
-          subjects: domainSubjects,
+          gradesPagesDomainModel: gradesPagesDomainModel,
         );
 
         return Resource.success(data: gradesPagesDomainModel);

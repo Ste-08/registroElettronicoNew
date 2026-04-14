@@ -9,10 +9,8 @@ class NotesReadResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.event != null) {
-      data['event'] = this.event.toJson();
-    }
-    return data;
+    data['event'] = this.event.toJson();
+      return data;
   }
 }
 

@@ -34,8 +34,6 @@ class LoginRequestDomainModel {
   }
 
   factory LoginRequestDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return LoginRequestDomainModel(
       ident: map['ident'],
       pass: map['pass'],

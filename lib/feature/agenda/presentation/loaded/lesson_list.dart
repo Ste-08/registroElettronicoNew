@@ -16,7 +16,7 @@ class LessonsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (lessons == null || lessons.isEmpty) {
+    if (lessons.isEmpty) {
       return _EmptyList();
     }
 

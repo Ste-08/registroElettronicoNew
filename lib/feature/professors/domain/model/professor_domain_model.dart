@@ -42,8 +42,6 @@ class ProfessorDomainModel {
   }
 
   factory ProfessorDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return ProfessorDomainModel(
       id: map['id'],
       name: map['name'],

@@ -12,8 +12,7 @@ class TimetableEntryPresentationModel extends Event {
     @required this.color,
     @required this.subjectId,
     @required this.subjectName,
-  })  : assert(subjectName != null),
-        super(id: id, start: start, end: end);
+  })  : super(id: id, start: start, end: end);
 
   final Color color;
 

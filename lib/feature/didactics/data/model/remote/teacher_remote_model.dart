@@ -45,9 +45,7 @@ class TeacherRemoteModel {
     data['teacherName'] = this.teacherName;
     data['teacherFirstName'] = this.teacherFirstName;
     data['teacherLastName'] = this.teacherLastName;
-    if (this.folders != null) {
-      data['folders'] = this.folders.map((v) => v.toJson()).toList();
-    }
-    return data;
+    data['folders'] = this.folders.map((v) => v.toJson()).toList();
+      return data;
   }
 }

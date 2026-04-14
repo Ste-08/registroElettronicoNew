@@ -36,9 +36,7 @@ class SubjectsWatcherBloc
       await _subjectsStreamSubscription.cancel();
       _startStreamListener();
     } else if (event is SubjectsStartWatcherIfNeeded) {
-      if (_subjectsStreamSubscription == null) {
-        _startStreamListener();
-      }
+      
     }
   }
 

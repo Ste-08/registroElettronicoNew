@@ -314,5 +314,5 @@ class _DateTimeInterval {
   DateTime end;
 
   _DateTimeInterval({@required this.begin, @required this.end})
-      : assert(begin != null && end != null);
+      : assert(end != null);
 }

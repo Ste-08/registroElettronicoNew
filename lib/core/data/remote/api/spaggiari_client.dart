@@ -44,7 +44,7 @@ abstract class LegacySpaggiariClient {
 }
 
 class _SpaggiariClient implements LegacySpaggiariClient {
-  _SpaggiariClient(this._dio, {this.baseUrl}) {
+  _SpaggiariClient(this._dio) {
     ArgumentError.checkNotNull(_dio, '_dio');
     this.baseUrl ??= 'https://web.spaggiari.eu/rest/v1';
   }

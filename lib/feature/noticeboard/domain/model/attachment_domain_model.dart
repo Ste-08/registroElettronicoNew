@@ -48,8 +48,6 @@ class AttachmentDomainModel {
   }
 
   factory AttachmentDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return AttachmentDomainModel(
       id: map['id'],
       pubId: map['pubId'],

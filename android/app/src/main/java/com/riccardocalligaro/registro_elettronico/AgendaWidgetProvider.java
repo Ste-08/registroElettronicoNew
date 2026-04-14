@@ -49,19 +49,33 @@ public class AgendaWidgetProvider extends AppWidgetProvider {
         // Set tomorrow's date in the header
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+        tomorrow.set(Calendar.MINUTE, 0);
+        tomorrow.set(Calendar.SECOND, 0);
+        tomorrow.set(Calendar.MILLISECOND, 0);
+        long startOfTomorrow = tomorrow.getTimeInMillis();
+        long endOfTomorrow = startOfTomorrow + 24 * 60 * 60 * 1000;
+
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d MMMM", Locale.ITALIAN);
         String dateStr = sdf.format(tomorrow.getTime());
         // Capitalize first letter
         dateStr = dateStr.substring(0, 1).toUpperCase() + dateStr.substring(1);
         views.setTextViewText(R.id.widget_date, dateStr);
 
-        // Check if there are events
+        // Check if there are events for tomorrow
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String eventsJson = prefs.getString(EVENTS_KEY, "[]");
         boolean hasEvents = false;
         try {
             JSONArray arr = new JSONArray(eventsJson);
-            hasEvents = arr.length() > 0;
+            for (int i = 0; i < arr.length(); i++) {
+                org.json.JSONObject obj = arr.getJSONObject(i);
+                long beginDateMs = obj.optLong("beginDateMs", 0);
+                if (beginDateMs >= startOfTomorrow && beginDateMs < endOfTomorrow) {
+                    hasEvents = true;
+                    break;
+                }
+            }
         } catch (Exception e) {
             hasEvents = false;
         }

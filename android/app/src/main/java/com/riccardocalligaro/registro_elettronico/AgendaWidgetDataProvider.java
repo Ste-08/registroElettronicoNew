@@ -123,17 +123,31 @@ public class AgendaWidgetDataProvider implements RemoteViewsService.RemoteViewsF
             SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             String eventsJson = prefs.getString(EVENTS_KEY, "[]");
             JSONArray jsonArray = new JSONArray(eventsJson);
+            
+            java.util.Calendar tomorrow = java.util.Calendar.getInstance();
+            tomorrow.add(java.util.Calendar.DAY_OF_YEAR, 1);
+            tomorrow.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            tomorrow.set(java.util.Calendar.MINUTE, 0);
+            tomorrow.set(java.util.Calendar.SECOND, 0);
+            tomorrow.set(java.util.Calendar.MILLISECOND, 0);
+            long startOfTomorrow = tomorrow.getTimeInMillis();
+            long endOfTomorrow = startOfTomorrow + 24 * 60 * 60 * 1000;
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
-                AgendaEvent event = new AgendaEvent();
-                event.id = obj.optInt("id", i);
-                event.title = obj.optString("title", "");
-                event.notes = obj.optString("notes", "");
-                event.author = obj.optString("author", "");
-                event.isFullDay = obj.optBoolean("isFullDay", false);
-                event.labelColor = obj.optString("labelColor", "");
-                events.add(event);
+                long beginDateMs = obj.optLong("beginDateMs", 0);
+                
+                // Only load events meant for tomorrow
+                if (beginDateMs >= startOfTomorrow && beginDateMs < endOfTomorrow) {
+                    AgendaEvent event = new AgendaEvent();
+                    event.id = obj.optInt("id", i);
+                    event.title = obj.optString("title", "");
+                    event.notes = obj.optString("notes", "");
+                    event.author = obj.optString("author", "");
+                    event.isFullDay = obj.optBoolean("isFullDay", false);
+                    event.labelColor = obj.optString("labelColor", "");
+                    events.add(event);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

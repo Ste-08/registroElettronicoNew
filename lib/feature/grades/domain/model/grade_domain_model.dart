@@ -167,7 +167,7 @@ class GradeDomainModel {
       'subjectDesc': subjectDesc,
       'evtId': evtId,
       'evtCode': evtCode,
-      'eventDate': eventDate?.millisecondsSinceEpoch,
+      'eventDate': eventDate.millisecondsSinceEpoch,
       'decimalValue': decimalValue,
       'displayValue': displayValue,
       'displayPos': displayPos,
@@ -186,8 +186,6 @@ class GradeDomainModel {
   }
 
   factory GradeDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return GradeDomainModel(
       subjectId: map['subjectId'],
       subjectDesc: map['subjectDesc'],

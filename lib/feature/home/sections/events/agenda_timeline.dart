@@ -24,7 +24,7 @@ class AgendaTimeline extends StatelessWidget {
     this.style = PaintingStyle.stroke,
   })  : assert(itemGap >= 0),
         assert(lineGap >= 0),
-        assert(indicators == null || children.length == indicators.length);
+        assert(children.length == indicators.length);
 
   final List<Widget> children;
   final double itemGap;
@@ -63,10 +63,8 @@ class AgendaTimeline extends StatelessWidget {
         final child = children[index];
 
         Widget indicator;
-        if (indicators != null) {
-          indicator = indicators[index];
-        }
-
+        indicator = indicators[index];
+      
         final isFirst = index == 0;
         final isLast = index == itemCount - 1;
 

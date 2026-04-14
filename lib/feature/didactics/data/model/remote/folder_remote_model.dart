@@ -45,9 +45,7 @@ class FolderRemoteModel {
     data['folderId'] = this.folderId;
     data['folderName'] = this.folderName;
     data['lastShareDT'] = this.lastShareDT;
-    if (this.contents != null) {
-      data['contents'] = this.contents.map((v) => v.toJson()).toList();
-    }
-    return data;
+    data['contents'] = this.contents.map((v) => v.toJson()).toList();
+      return data;
   }
 }

@@ -34,10 +34,8 @@ class SubjectRemoteModel {
     data['id'] = this.id;
     data['description'] = this.description;
     data['order'] = this.order;
-    if (this.professors != null) {
-      data['teachers'] = this.professors.map((v) => v.toJson()).toList();
-    }
-    return data;
+    data['teachers'] = this.professors.map((v) => v.toJson()).toList();
+      return data;
   }
 
   SubjectLocalModel toLocalModel(int index) {

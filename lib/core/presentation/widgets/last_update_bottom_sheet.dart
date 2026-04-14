@@ -15,14 +15,9 @@ class LastUpdateBottomSheet extends StatelessWidget {
     String message;
     AppLocalizations trans = AppLocalizations.of(context);
 
-    if (millisecondsSinceEpoch == null) {
-      message =
-          '${trans.translate('last_update')}: ${trans.translate('never')}';
-    } else {
-      message =
-          '${trans.translate('last_update')}: ${GlobalUtils.getLastUpdateMessage(context, DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch))}';
-    }
-    return Container(
+    message =
+        '${trans.translate('last_update')}: ${GlobalUtils.getLastUpdateMessage(context, DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch))}';
+      return Container(
       // height: 20,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(

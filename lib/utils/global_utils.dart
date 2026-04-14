@@ -643,13 +643,6 @@ class GlobalUtils {
       'Leone Basile'
     ];
 
-    if (index == null) {
-      Random random = Random();
-      int randomNumber = random.nextInt(names.length - 1);
-
-      return names[randomNumber];
-    }
-
     if (index > names.length - 1) {
       return 'Mario Rossi';
     }

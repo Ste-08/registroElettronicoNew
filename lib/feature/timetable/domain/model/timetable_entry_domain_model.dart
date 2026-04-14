@@ -69,8 +69,6 @@ class TimetableEntryDomainModel {
   }
 
   factory TimetableEntryDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return TimetableEntryDomainModel(
       id: map['id'],
       start: map['start'],

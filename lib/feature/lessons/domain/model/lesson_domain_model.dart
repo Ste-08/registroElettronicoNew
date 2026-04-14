@@ -79,7 +79,7 @@ class LessonDomainModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'date': date?.millisecondsSinceEpoch,
+      'date': date.millisecondsSinceEpoch,
       'code': code,
       'position': position,
       'duration': duration,
@@ -94,8 +94,6 @@ class LessonDomainModel {
   }
 
   factory LessonDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return LessonDomainModel(
       id: map['id'],
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),

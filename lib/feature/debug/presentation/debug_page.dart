@@ -31,12 +31,10 @@ class _DebugPageState extends State<DebugPage> {
 
   @override
   void initState() {
+    super.initState();
     final SharedPreferences sharedPreferences = sl();
     final _dbName = sharedPreferences.getString(PrefsConstants.databaseName);
-    setState(() {
-      dbName = _dbName;
-    });
-    super.initState();
+    dbName = _dbName ?? '';
   }
 
   @override
@@ -220,7 +218,7 @@ class DebugButton extends ListTile {
         super(
           onTap: (dangerous) ? () => safe(context, onTap) : onTap,
           title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          subtitle: Text(subtitle),
         );
 
   static void safe(BuildContext context, VoidCallback callback) {

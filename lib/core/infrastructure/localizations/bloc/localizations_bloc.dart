@@ -38,13 +38,11 @@ class LocalizationsBloc extends Bloc<LocalizationsEvent, LocalizationsState> {
   void _loadSettings() async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     List<String> localeString = prefs.getStringList(localeKey);
-    if (localeString != null) {
-      ui.Locale locale =
-          ui.Locale(localeString.elementAt(0), localeString.elementAt(1));
+    ui.Locale locale =
+        ui.Locale(localeString.elementAt(0), localeString.elementAt(1));
 
-      add(LocaleChanged(locale: locale));
+    add(LocaleChanged(locale: locale));
     }
-  }
 
   void _saveSettings(Locale locale) async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();

@@ -46,8 +46,7 @@ LazyDatabase _openConnection() {
     final SharedPreferences sharedPreferences = sl();
     String dbName = sharedPreferences.getString(PrefsConstants.databaseName);
 
-    if (dbName == null ||
-        dbName == PrefsConstants.databaseNameBeforeMigration) {
+    if (dbName == PrefsConstants.databaseNameBeforeMigration) {
       dbName = PrefsConstants.defaultDbName;
     }
 

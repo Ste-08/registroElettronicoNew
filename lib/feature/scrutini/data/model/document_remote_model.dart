@@ -21,14 +21,10 @@ class DocumentsResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.documents != null) {
-      data['documents'] = this.documents.map((v) => v.toJson()).toList();
-    }
-    if (this.schoolReports != null) {
+    data['documents'] = this.documents.map((v) => v.toJson()).toList();
       data['schoolReports'] =
-          this.schoolReports.map((v) => v.toJson()).toList();
-    }
-    return data;
+        this.schoolReports.map((v) => v.toJson()).toList();
+      return data;
   }
 }
 

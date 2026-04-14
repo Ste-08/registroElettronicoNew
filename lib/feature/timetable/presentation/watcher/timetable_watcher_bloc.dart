@@ -36,9 +36,7 @@ class TimetableWatcherBloc
       await _timetableStreamSubscription.cancel();
       _startStreamListener();
     } else if (event is TimetableStartWatcherIfNeeded) {
-      if (_timetableStreamSubscription == null) {
-        _startStreamListener();
-      }
+      
     }
   }
 

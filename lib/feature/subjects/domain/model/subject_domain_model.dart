@@ -38,9 +38,6 @@ class SubjectDomainModel {
       professorsText +=
           '${StringUtils.titleCase(GlobalUtils.getMockupName())}, ';
     } else {
-      if (this.professorsSet == null) {
-        return '';
-      }
       this.professorsSet.forEach((prof) {
         String name = StringUtils.titleCase(prof);
         if (!professorsText.contains(name)) {

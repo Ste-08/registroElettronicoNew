@@ -9,9 +9,7 @@ class TextContentRemoteModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.text != null) {
-      data['text'] = this.text;
-    }
-    return data;
+    data['text'] = this.text;
+      return data;
   }
 }

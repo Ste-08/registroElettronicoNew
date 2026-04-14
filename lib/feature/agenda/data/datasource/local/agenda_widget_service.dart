@@ -17,20 +17,23 @@ class AgendaWidgetService {
 
   AgendaWidgetService({this.sharedPreferences});
 
-  /// Filters tomorrow's events from the full list and saves them
+  /// Filters upcoming events for the next 14 days and saves them
   /// as JSON in SharedPreferences, then notifies the native widget to refresh.
   Future<void> updateWidgetData(List<AgendaEventDomainModel> allEvents) async {
     try {
-      final tomorrow = DateTime.now().add(Duration(days: 1));
-      final tomorrowEvents = allEvents.where((event) {
-        return DateUtils.areSameDay(event.begin, tomorrow);
+      final now = DateTime.now();
+      final maxDate = now.add(Duration(days: 14));
+      
+      final upcomingEvents = allEvents.where((event) {
+        // Keep events from today up to 14 days in the future
+        return event.begin.isAfter(now.subtract(Duration(days: 1))) && event.begin.isBefore(maxDate);
       }).toList();
 
       // Sort by begin time
-      tomorrowEvents.sort((a, b) => a.begin.compareTo(b.begin));
+      upcomingEvents.sort((a, b) => a.begin.compareTo(b.begin));
 
       // Convert to JSON for the native widget to read
-      final eventsJson = tomorrowEvents.map((e) {
+      final eventsJson = upcomingEvents.map((e) {
         return {
           'id': e.id ?? 0,
           'title': e.title ?? '',
@@ -39,6 +42,7 @@ class AgendaWidgetService {
           'isFullDay': e.isFullDay ?? false,
           'labelColor': e.labelColor ?? '',
           'subjectName': e.subjectName ?? '',
+          'beginDateMs': e.begin.millisecondsSinceEpoch,
         };
       }).toList();
 

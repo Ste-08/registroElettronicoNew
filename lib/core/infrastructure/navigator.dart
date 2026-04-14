@@ -120,9 +120,6 @@ class AppNavigator {
       {@required Widget content,
       Widget title = const Text('Attention'),
       List<Widget> actions}) {
-    if (actions == null) {
-      actions = [];
-    }
     BuildContext alertContext;
     SchedulerBinding.instance.addPostFrameCallback((_) {
       showDialog(

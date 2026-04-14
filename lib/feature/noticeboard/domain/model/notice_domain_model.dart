@@ -131,12 +131,12 @@ class NoticeDomainModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'date': date?.millisecondsSinceEpoch,
+      'date': date.millisecondsSinceEpoch,
       'readStatus': readStatus,
       'code': code,
       'contentId': contentId,
-      'validFrom': validFrom?.millisecondsSinceEpoch,
-      'validTo': validTo?.millisecondsSinceEpoch,
+      'validFrom': validFrom.millisecondsSinceEpoch,
+      'validTo': validTo.millisecondsSinceEpoch,
       'validInRange': validInRange,
       'status': status,
       'contentTitle': contentTitle,
@@ -146,13 +146,11 @@ class NoticeDomainModel {
       'needJoin': needJoin,
       'needReply': needReply,
       'needFile': needFile,
-      'attachments': attachments?.map((x) => x?.toMap())?.toList(),
+      'attachments': attachments.map((x) => x?.toMap()).toList(),
     };
   }
 
   factory NoticeDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return NoticeDomainModel(
       id: map['id'],
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),

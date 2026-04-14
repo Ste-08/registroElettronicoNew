@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:registro_elettronico/feature/grades/domain/model/grade_domain_model.dart';
+import 'package:registro_elettronico/feature/grades/domain/model/grades_section.dart';
 import 'package:registro_elettronico/feature/subjects/domain/model/subject_domain_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service that bridges Flutter grades data to the native home screen widget.
-/// Shows subject averages and overall average.
+/// Shows subject averages and overall average of the current term.
 class GradesWidgetService {
   static const String _gradesKey = 'widget_grades_data';
   static const MethodChannel _channel =
@@ -17,57 +18,68 @@ class GradesWidgetService {
 
   GradesWidgetService({this.sharedPreferences});
 
-  /// Updates the widget data with grades and subjects information.
-  /// Calculates average for each subject and overall average.
+  /// Updates the widget data with grades and subjects information from the current period.
   Future<void> updateWidgetData({
-    List<GradeDomainModel> grades,
-    List<SubjectDomainModel> subjects,
+    GradesPagesDomainModel gradesPagesDomainModel,
   }) async {
+    if (gradesPagesDomainModel == null || gradesPagesDomainModel.periodsWithGrades.isEmpty) return;
+
     try {
-      // Group grades by subject and calculate averages
-      final Map<int, List<GradeDomainModel>> gradesBySubject = {};
+      final now = DateTime.now();
       
-      for (final grade in grades) {
-        if (_isValidGrade(grade)) {
-          if (!gradesBySubject.containsKey(grade.subjectId)) {
-            gradesBySubject[grade.subjectId] = [];
+      // Find current period
+      PeriodWithGradesDomainModel currentPeriod;
+      if (gradesPagesDomainModel.periodsWithGrades != null) {
+        for (final periodWithGrades in gradesPagesDomainModel.periodsWithGrades) {
+          if (periodWithGrades?.period?.start != null &&
+              periodWithGrades?.period?.end != null &&
+              periodWithGrades.period.start.isBefore(now) &&
+              periodWithGrades.period.end.isAfter(now)) {
+            currentPeriod = periodWithGrades;
+            break;
           }
-          gradesBySubject[grade.subjectId].add(grade);
         }
       }
+      
+      // Fallback: If no current period is active (e.g. over the summer), pick the closest or the last one.
+      if (currentPeriod == null && gradesPagesDomainModel.periodsWithGrades != null && gradesPagesDomainModel.periodsWithGrades.isNotEmpty) {
+        int closestIndex = 0;
+        int minDays = 366;
+        for (var i = 0; i < gradesPagesDomainModel.periodsWithGrades.length; i++) {
+          final end = gradesPagesDomainModel.periodsWithGrades[i]?.period?.end;
+          if (end != null) {
+            final diff = now.difference(end).inDays.abs();
+            if (diff < minDays) {
+              minDays = diff;
+              closestIndex = i;
+            }
+          }
+        }
+        currentPeriod = gradesPagesDomainModel.periodsWithGrades[closestIndex];
+      }
 
-      // Calculate subject averages
+      if (currentPeriod == null) return;
+
+      // Calculate subject averages from the already calculated period data
       final List<Map<String, dynamic>> subjectAverages = [];
-      double overallSum = 0;
-      int overallCount = 0;
 
-      for (final subject in subjects) {
-        final subjectGrades = gradesBySubject[subject.id] ?? [];
-        if (subjectGrades.isNotEmpty) {
-          double sum = 0;
-          int count = 0;
-          
-          for (final grade in subjectGrades) {
-            sum += grade.decimalValue;
-            count++;
+      if (currentPeriod.gradesForList != null) {
+        for (final periodGrade in currentPeriod.gradesForList) {
+          final double average = periodGrade?.average;
+          if (average != null && average > 0 && periodGrade.grades != null && periodGrade.grades.isNotEmpty) {
+            int validGradesCount = periodGrade.grades.where((g) => _isValidGrade(g)).length;
+            
+            subjectAverages.add({
+              'id': periodGrade.subject?.id ?? -1,
+              'name': _truncateSubjectName(periodGrade.subject?.name ?? ''),
+              'average': average,
+              'gradesCount': validGradesCount,
+            });
           }
-          
-          final average = sum / count;
-          
-          subjectAverages.add({
-            'id': subject.id,
-            'name': _truncateSubjectName(subject.name ?? ''),
-            'average': average,
-            'gradesCount': count,
-          });
-          
-          overallSum += average;
-          overallCount++;
         }
       }
 
-      // Calculate overall average (average of subject averages)
-      final double overallAverage = overallCount > 0 ? overallSum / overallCount : 0.0;
+      final double overallAverage = currentPeriod.average ?? 0.0;
 
       // Sort by average (worst first to highlight struggling subjects)
       subjectAverages.sort((a, b) => (a['average'] as double).compareTo(b['average'] as double));
@@ -91,6 +103,7 @@ class GradesWidgetService {
 
   /// Checks if a grade is valid for average calculation.
   bool _isValidGrade(GradeDomainModel grade) {
+    if (grade == null) return false;
     return grade.decimalValue != null &&
         grade.decimalValue != -1.00 &&
         (grade.cancelled == null || grade.cancelled == false) &&

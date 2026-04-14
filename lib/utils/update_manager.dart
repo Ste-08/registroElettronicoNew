@@ -332,7 +332,6 @@ class SRUpdateManager {
   DateTime _date(
     int milliseconds,
   ) {
-    if (milliseconds == null) return null;
     return DateTime.fromMillisecondsSinceEpoch(milliseconds);
   }
 

@@ -214,32 +214,27 @@ class Logger {
 
     Directory directory = await _getLogsDirectory();
 
-    if (directory == null) {
-      print('Can not find directory for logs file');
-      return null;
+    final path =
+        directory.path + "/" + flog_constants.Constants.DIRECTORY_NAME;
+    //creating directory
+    await Directory(path).create()
+        // The created directory is returned as a Future.
+        .then((Directory directory) {
+      print(directory.path);
+    });
+
+    //opening file
+    var file = File("$path/flog.txt");
+    var isExist = await file.exists();
+
+    //check to see if file exist
+    if (isExist) {
+      print('File exists(data_manager)------------------>_getLocalFile()');
     } else {
-      final path =
-          directory.path + "/" + flog_constants.Constants.DIRECTORY_NAME;
-      //creating directory
-      await Directory(path).create()
-          // The created directory is returned as a Future.
-          .then((Directory directory) {
-        print(directory.path);
-      });
-
-      //opening file
-      var file = File("$path/flog.txt");
-      var isExist = await file.exists();
-
-      //check to see if file exist
-      if (isExist) {
-        print('File exists(data_manager)------------------>_getLocalFile()');
-      } else {
-        print('file does not exist(data_manager)---------->_getLocalFile()');
-      }
-      return file;
+      print('file does not exist(data_manager)---------->_getLocalFile()');
     }
-  }
+    return file;
+    }
 
   static Future<Directory> _getLogsDirectory() async {
     Directory directory;

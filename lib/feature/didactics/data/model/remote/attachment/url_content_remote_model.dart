@@ -9,10 +9,8 @@ class URLContentRemoteModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.item != null) {
-      data['item'] = this.item.toJson();
-    }
-    return data;
+    data['item'] = this.item.toJson();
+      return data;
   }
 }
 

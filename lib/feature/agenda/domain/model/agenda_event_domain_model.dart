@@ -103,8 +103,8 @@ class AgendaEventDomainModel {
     return {
       'id': id,
       'code': code,
-      'begin': begin?.millisecondsSinceEpoch,
-      'end': end?.millisecondsSinceEpoch,
+      'begin': begin.millisecondsSinceEpoch,
+      'end': end.millisecondsSinceEpoch,
       'isFullDay': isFullDay,
       'notes': notes,
       'author': author,
@@ -118,8 +118,6 @@ class AgendaEventDomainModel {
   }
 
   factory AgendaEventDomainModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return AgendaEventDomainModel(
       id: map['id'],
       code: map['code'],

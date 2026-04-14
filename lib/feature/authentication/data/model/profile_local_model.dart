@@ -56,16 +56,14 @@ class ProfileLocalModel {
       'firstName': firstName,
       'lastName': lastName,
       'token': token,
-      'release': release?.millisecondsSinceEpoch,
-      'expire': expire?.millisecondsSinceEpoch,
+      'release': release.millisecondsSinceEpoch,
+      'expire': expire.millisecondsSinceEpoch,
       'currentlyLoggedIn': currentlyLoggedIn,
       'dbName': dbName,
     };
   }
 
   factory ProfileLocalModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return ProfileLocalModel(
       studentId: map['studentId'],
       ident: map['ident'],

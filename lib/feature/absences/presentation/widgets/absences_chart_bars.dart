@@ -131,11 +131,6 @@ class AbsencesChartBarsState extends State<AbsencesChartBars> {
 
   List<BarChartRodStackItem> _getEventsForMonth(int month) {
     List<Absence> events = widget.absences[month];
-    if (events == null) {
-      return [
-        BarChartRodStackItem(0, 0, Colors.transparent),
-      ];
-    }
     // Sort by code so a its first
     events.sort((a, b) => a.evtCode.compareTo(b.evtCode));
 
